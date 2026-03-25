@@ -1,9 +1,10 @@
 CC = gcc
-CFLAGS = -std=c99 -Wall -Wextra -I/ucrt64/include/SDL3
-LIBS = -L/ucrt64/lib -lSDL3 -lSDL3_image -lSDL3_ttf
+# Flags de compilação com otimização O2 para processamento de pixels [cite: 45]
+CFLAGS = -std=c99 -Wall -Wextra -I/ucrt64/include/SDL3 -O2
+# Inclusão obrigatória de -lm para a biblioteca math.h 
+LIBS = -L/ucrt64/lib -lSDL3 -lSDL3_image -lSDL3_ttf -lm
 
 SRC = src/main.c src/image.c
-
 OBJ = $(SRC:.c=.o)
 TARGET = programa
 
