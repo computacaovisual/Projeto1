@@ -24,8 +24,10 @@ Projeto desenvolvido para a disciplina de Computação Visual (7º semestre). Es
 - Ficheiro de fonte `.ttf`.
 
 ## Como Compilar e Executar
+1. **Compilação (Linux / Windows com MSYS2):** ```bash
+   gcc src/main.c src/image.c -o programa -lSDL3 -lSDL3_image -lSDL3_ttf -lm
 
-1. **Baixe uma fonte:** Coloque um ficheiro `.ttf` (ex: Arial) na raiz do projeto e renomeie-o para `font.ttf`.
-2. **Compilação:** Abra o terminal na pasta raiz e execute o comando:
-   ```bash
-   make
+2. **Compilação MacOS
+   gcc src/main.c src/image.c -o programa -I/opt/homebrew/include -L/opt/homebrew/lib -lSDL3 -lSDL3_image -lSDL3_ttf -lm
+
+   ./programa macaco.webp
