@@ -129,7 +129,7 @@ int main(int argc, char *argv[]) {
                 // Pressionar ESC
                 if (evento.key.key == SDLK_ESCAPE) rodando = 0;
                 
-                // Salvar imagem (Requisito 6)
+                // Salvar imagem 
                 if (evento.key.key == SDLK_S) {
                     IMG_SavePNG(surf_display, "output_image.png");
                     printf("Imagem salva como output_image.png com sucesso!\n");
