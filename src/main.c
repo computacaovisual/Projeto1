@@ -65,19 +65,41 @@ int main(int argc, char *argv[]) {
     /* 3. Criação das Janelas e Renderers */
     SDL_Window *janela_main = SDL_CreateWindow("Proj1 - Imagem", cinza->w, cinza->h, 0);
     SDL_Window *janela_sec = SDL_CreateWindow("Proj1 - Controles", 400, 350, 0);
+
+    // Obtém os limites utilizáveis do monitor principal
+    SDL_DisplayID display = SDL_GetPrimaryDisplay();
+    SDL_Rect bounds;
+    SDL_GetDisplayUsableBounds(display, &bounds);
+
+    // Calcula a largura total do "bloco" (janela principal + margem de 10px + janela secundária)
+    int largura_total = cinza->w + 10 + 400;
+
+    // Calcula o X inicial para centralizar as DUAS janelas juntas na tela
+    int pos_x = bounds.x + (bounds.w - largura_total) / 2;
+    int pos_y = bounds.y + (bounds.h - cinza->h) / 2;
+
+    // Evita que a janela principal suma pela esquerda se a imagem for gigantesca
+    if (pos_x < bounds.x) pos_x = bounds.x;
+
+    // Posiciona a janela principal
+    SDL_SetWindowPosition(janela_main, pos_x, pos_y);
+
+    // Calcula a posição da secundária (logo à direita da principal)
+    int sec_x = pos_x + cinza->w + 10;
     
-    // Posiciona as janelas lado a lado
-    int wx, wy;
-    SDL_GetWindowPosition(janela_main, &wx, &wy);
-    SDL_SetWindowPosition(janela_main, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
-    SDL_GetWindowPosition(janela_main, &wx, &wy);
-    SDL_SetWindowPosition(janela_sec, wx + cinza->w + 10, wy);
+    // TRAVA DE SEGURANÇA: Se a secundária for vazar na direita, ela encosta na borda da tela
+    if (sec_x + 400 > bounds.x + bounds.w) {
+        sec_x = bounds.x + bounds.w - 400 - 10; // 10px de margem da borda
+    }
+    
+    // Posiciona a janela secundária e define ela como filha
+    SDL_SetWindowPosition(janela_sec, sec_x, pos_y);
+    SDL_SetWindowParent(janela_sec, janela_main);
 
     SDL_Renderer *rend_main = SDL_CreateRenderer(janela_main, NULL);
     SDL_Renderer *rend_sec = SDL_CreateRenderer(janela_sec, NULL);
 
     SDL_Texture *tex_display = SDL_CreateTextureFromSurface(rend_main, surf_display);
-
     /* 4. Preparação da Fonte */
     TTF_Font *fonte = TTF_OpenFont("font.ttf", 22);
     if (!fonte) {
