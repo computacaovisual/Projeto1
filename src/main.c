@@ -224,7 +224,6 @@ int main(int argc, char *argv[]) {
 
         SDL_RenderPresent(rend_sec);
 
-        // O SEGREDO PARA NÃO TRAVAR O MAC: Pausa de 16 milissegundos (~60 FPS)
         SDL_Delay(16);
    }
 }
